@@ -2,185 +2,206 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baby Prediction Game • Oh Baby!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Baby Prediction Game</title>
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@1,400;1,700&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
+    
     <style>
         :root {
-            --primary-text: #4a4a4a;
-            --boy-bg: #e1f1f8;
-            --boy-text: #6c8ea1;
-            --girl-bg: #fee6e9;
-            --girl-text: #b1888c;
             --gold: #bfa071;
-            --cream: #fcfbf6;
+            --boy: #94b8cc;
+            --girl: #d9a5b3;
+            --cream: #fdfaf6;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Prevent scrolling bounce on mobile */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            background-color: var(--cream);
         }
 
         body {
-            margin: 0;
             font-family: 'Poppins', sans-serif;
-            background-color: var(--cream);
-            /* Soft watercolor floral background */
-            background-image: url('https://www.transparenttextures.com/patterns/cream-pixels.png'), 
-                              url('https://img.freepik.com/free-vector/hand-painted-watercolor-floral-background_23-2148434057.jpg');
+            background-image: 
+                url('https://www.transparenttextures.com/patterns/natural-paper.png'),
+                url('https://img.freepik.com/free-vector/hand-painted-watercolor-floral-background_23-2148434057.jpg');
             background-size: auto, cover;
+            background-position: center;
             background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 380px;
             padding: 20px;
-        }
-
-        .form-card {
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            padding: 60px 40px;
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-            border: 1px solid white;
-        }
-
-        .script-title {
-            font-family: 'Bodoni Moda', serif;
-            font-style: italic;
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 5px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin: 0 0 30px 0;
-            font-weight: 700;
-            color: var(--primary-text);
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-            text-align: left;
-        }
-
-        label {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #888;
-            margin-left: 10px;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #eee;
-            border-radius: 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: 0.3s;
             box-sizing: border-box;
         }
 
-        input:focus { border-color: var(--gold); outline: none; }
-
-        .vote-container {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 40px 25px;
+            border-radius: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .vote-card {
-            flex: 1;
-            position: relative;
-            cursor: pointer;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .vote-card input { position: absolute; opacity: 0; }
+        .script { font-family: 'Bodoni Moda', serif; font-style: italic; color: var(--gold); font-size: 1.2rem; }
+        h1 { font-size: 2.2rem; margin: 5px 0 25px; font-weight: 700; color: #333; letter-spacing: -1px; }
 
-        .vote-design {
-            padding: 25px 10px;
-            border: 2px solid #eee;
-            border-radius: 25px;
-            background: white;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Mobile Optimized Inputs */
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { font-size: 0.7rem; font-weight: 700; letter-spacing: 1px; color: #999; margin-left: 10px; margin-bottom: 6px; display: block; text-transform: uppercase; }
+
+        input[type="text"], select {
+            width: 100%;
+            height: 55px; /* Taller for mobile touch */
+            padding: 0 20px;
+            border: 1px solid #ddd;
+            border-radius: 18px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px; /* Prevents iOS auto-zoom on focus */
+            background: #fff;
+            appearance: none;
+            box-sizing: border-box;
         }
 
-        .vote-design span { display: block; }
-        .emoji { font-size: 2rem; margin-bottom: 10px; filter: grayscale(1); transition: 0.4s; }
-        .label-text { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; }
+        /* Custom Vote Grid */
+        .vote-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 25px 0; }
+        .vote-item { position: relative; cursor: pointer; }
+        .vote-item input { position: absolute; opacity: 0; }
 
-        /* Selection States */
-        input:checked + .vote-design.boy { background: var(--boy-bg); border-color: #b3d7e8; color: var(--boy-text); transform: scale(1.05); }
-        input:checked + .vote-design.girl { background: var(--girl-bg); border-color: #f7cbd1; color: var(--girl-text); transform: scale(1.05); }
-        input:checked + .vote-design .emoji { filter: grayscale(0); }
+        .button-ui {
+            padding: 20px 10px;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .emoji { font-size: 1.8rem; display: block; margin-bottom: 5px; }
+        .btn-label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: #888; }
+
+        /* Selection Effects */
+        input:checked + .button-ui.boy { background: #eef7ff; border-color: var(--boy); transform: scale(0.96); box-shadow: inset 0 0 10px rgba(148, 184, 204, 0.2); }
+        input:checked + .button-ui.girl { background: #fff1f3; border-color: var(--girl); transform: scale(0.96); box-shadow: inset 0 0 10px rgba(217, 165, 179, 0.2); }
+        input:checked + .button-ui .btn-label { color: #333; }
 
         .submit-btn {
-            width: 100%;
-            background: #4a4a4a;
+            background: #333;
             color: white;
             border: none;
-            padding: 20px;
-            border-radius: 50px;
+            height: 60px;
+            width: 100%;
+            border-radius: 30px;
             font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
-            margin-top: 20px;
+            margin-top: 10px;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .submit-btn:hover { background: var(--gold); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(191, 160, 113, 0.3); }
+        .submit-btn:active { transform: scale(0.98); background: var(--gold); }
+
+        /* Floating sparkles for flair */
+        .sparkle {
+            position: fixed;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: float 4s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-<div class="form-card">
-    <div class="script-title">Our Little One</div>
-    <h1>Boy or Girl?</h1>
-    
-    <form action="https://docs.google.com/forms/d/e/1FAIpQLSd8XmtBGSjBohGKO7nwkA7UthDdb7e7eqBkCbyjBjs/formResponse" method="POST">
-        
-        <div class="input-group">
-            <label>WHAT IS YOUR NAME?</label>
-            <input type="text" name="entry.1471342629" placeholder="Enter name..." required>
-        </div>
+<div class="container">
+    <div class="card">
+        <div class="script">Guess the gender...</div>
+        <h1>Oh Baby!</h1>
 
-        <div class="input-group">
-            <label>WHO ARE YOU TO THE BABY?</label>
-            <select name="entry.1802958055" required>
-                <option value="" disabled selected>Select relation...</option>
-                <option value="Grandparent">Grandparent</option>
-                <option value="Auntie/Uncle">Auntie/Uncle</option>
-                <option value="Cousin">Cousin</option>
-                <option value="Friend">Friend</option>
-                <option value="Other">Other</option>
-            </select>
-        </div>
+        <form action="https://docs.google.com/forms/d/e/1FAIpQLSd8XmtBGSjBohGKO7nwkA7UthDdb7e7eqBkCbyjBjs/formResponse" method="POST">
+            
+            <div class="input-group">
+                <label>Your Name</label>
+                <input type="text" name="entry.1471342629" placeholder="Enter your name" required>
+            </div>
 
-        <div class="vote-container">
-            <label class="vote-card">
-                <input type="radio" name="entry.1565576722" value="Boy" required>
-                <div class="vote-design boy">
-                    <span class="emoji">💙</span>
-                    <span class="label-text">Team Boy</span>
-                </div>
-            </label>
+            <div class="input-group">
+                <label>Relationship</label>
+                <select name="entry.1802958055" required>
+                    <option value="" disabled selected>Who are you to baby?</option>
+                    <option value="Grandparent">Grandparent</option>
+                    <option value="Auntie/Uncle">Auntie / Uncle</option>
+                    <option value="Cousin">Cousin</option>
+                    <option value="Friend">Dear Friend</option>
+                    <option value="Other">Other Family</option>
+                </select>
+            </div>
 
-            <label class="vote-card">
-                <input type="radio" name="entry.1565576722" value="Girl" required>
-                <div class="vote-design girl">
-                    <span class="emoji">💗</span>
-                    <span class="label-text">Team Girl</span>
-                </div>
-            </label>
-        </div>
+            <div class="vote-grid">
+                <label class="vote-item">
+                    <input type="radio" name="entry.1565576722" value="Boy" required>
+                    <div class="button-ui boy">
+                        <span class="emoji">💙</span>
+                        <span class="btn-label">Boy</span>
+                    </div>
+                </label>
 
-        <button type="submit" class="submit-btn">SEND MY GUESS ✨</button>
-    </form>
+                <label class="vote-item">
+                    <input type="radio" name="entry.1565576722" value="Girl" required>
+                    <div class="button-ui girl">
+                        <span class="emoji">💗</span>
+                        <span class="btn-label">Girl</span>
+                    </div>
+                </label>
+            </div>
+
+            <button type="submit" class="submit-btn">CAST MY VOTE ✨</button>
+        </form>
+    </div>
 </div>
+
+<script>
+    // Create random floating sparkles for a high-end feel
+    function createSparkles() {
+        for (let i = 0; i < 12; i++) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            const size = Math.random() * 5 + 2 + 'px';
+            sparkle.style.width = size;
+            sparkle.style.height = size;
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            sparkle.style.animationDelay = (Math.random() * 4) + 's';
+            document.body.appendChild(sparkle);
+        }
+    }
+    createSparkles();
+</script>
 
 </body>
 </html>
