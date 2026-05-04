@@ -142,8 +142,8 @@
     <div class="card">
         <div class="script">Guess the gender...</div>
         <h1>Oh Baby!</h1>
-
-        <form action="https://docs.google.com/forms/d/e/1FAIpQLSd8XmtBGSjBohGKO7nwkA7UthDdb7e7eqBkCbyjBjs/formResponse" method="POST">
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {window.location='thankyou.html';}"></iframe>
+        <form id="genderForm" action="https://docs.google.com/forms/d/e/1FAIpQLSd8XmtBGSjBohGKO7nwkA7UthDdb7e7eqBkCbyjBjs/formResponse" method="POST" target="hidden_iframe">
             
             <div class="input-group">
                 <label>Your Name</label>
@@ -208,6 +208,11 @@
     }
     createSparkles();
 </script>
-
+<script>
+    var submitted = false;
+    document.getElementById('genderForm').onsubmit = function() {
+        submitted = true;
+    };
+</script>
 </body>
 </html>
